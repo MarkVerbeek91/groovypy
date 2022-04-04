@@ -1,0 +1,48 @@
+pipeline {
+    agent {
+        label "FOO"
+    }
+
+    triggers {
+        cron('H */6 * * *')
+    }
+
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo "comparing"
+            }
+        }
+        stage('Stage 2') {
+            parallel {
+                stage('parallel 1') {
+                    steps {
+                        sh 'python3 --version'
+                    }
+                }
+                stage('parallel 2') {
+                    steps {
+                        sh 'python3 --version'
+                    }
+                }
+            }
+        }
+        stage('Compare to current baseline') {
+            when {
+                expression {
+                    return readFile('status').contains('CHANGED')
+                }
+            }
+            steps {
+                echo "change detected"
+            }
+        }
+    }
+    post('Clean up') {
+        always {
+            sh 'rm -rf sync_trunk_svn'
+            sh 'rm -rf sync_trunk_git'
+            sh 'rm -f status'
+        }
+    }
+}

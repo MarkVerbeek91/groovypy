@@ -1,0 +1,62 @@
+
+GroovyFile:
+    // attrs = Attrs
+    pipeline = Pipeline
+;
+
+Attrs:
+    Node | Pipeline
+;
+
+Node:
+    'node' '{' '}'
+;
+
+Pipeline:
+    'pipeline'
+    '{'
+     agent = Agent?
+     trigger = Triggers?
+     stages = Stages?
+     '}'
+;
+
+Agent:
+    'agent' '{' 'label' data=STRING '}'
+;
+
+Triggers:
+    'triggers' '{'  '}'
+;
+
+Stages:
+    'stages' '{'
+    stage *= Stage
+     '}'
+;
+
+Stage:
+    'stage' '(' STRING ')'
+    '{'
+     steps *= Steps
+     '}'
+;
+
+Steps:
+    'steps'
+    '{'
+        commands *= Command
+    '}'
+;
+
+Command:
+    Echo | Shell
+;
+
+Echo:
+    'echo' message=STRING
+;
+
+Shell:
+    'sh' command=STRING
+;

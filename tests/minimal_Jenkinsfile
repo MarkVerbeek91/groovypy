@@ -1,0 +1,14 @@
+pipeline {
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo "comparing"
+            }
+        }
+        stage('Stage 2') {
+            steps {
+                sh "change detected"
+            }
+        }
+    }
+}

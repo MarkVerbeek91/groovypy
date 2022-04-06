@@ -1,112 +1,36 @@
 from shlex import shlex
 import ast
 
-import pytest
-
-
-class CustomException(Exception):
-    pass
-
-
-class IsKeyStartError(Exception):
-    pass
-
-
-class IsKeyEndError(Exception):
-    pass
-
-
-class IsDataStartError(Exception):
-    pass
-
-
-class InvalidPairError(Exception):
-    pass
-
-
-class IsDataEndError(Exception):
-    pass
-
 
 class GroovySlurper:
+    @classmethod
+    def parse(cls, string):
+        lex = shlex(string)
+
+        return cls.get_token(lex)
 
     @classmethod
-    def parse(cls, file_data):
-        lex = shlex(file_data)
-
+    def get_token(cls, lex):
         try:
-            content = cls.get_key_content_pair(lex)
-        except InvalidPairError:
-            content = None
-        return content
+            token = next(lex)
+        except StopIteration:
+            token = None
+        else:
+            content = cls.get_content(lex)
 
-    @classmethod
-    def get_key_content_pair(cls, lex):
-        key = cls.get_key(lex)
-        content = cls.get_content(lex)
+            if content == "{":
+                content = cls.get_token(lex)
 
-        if key is None and content is None:
-            raise InvalidPairError
+            token = {token: content} if content == "}" else token
 
-        return {key: content}
-
-    @classmethod
-    def get_key(cls, lex):
-        try:
-            key = next(lex)
-            key = cls.convert_to_type(key)
-        except (StopIteration, IsKeyEndError, IsKeyStartError):
-            key = None
-
-        return key
+        return token
 
     @classmethod
     def get_content(cls, lex):
         try:
-            content = next(lex)
+            content = next(lex).replace("\"", "")
         except StopIteration:
             content = None
-        else:
-            content = cls.process_content(content, lex)
-        return content
-
-    @classmethod
-    def process_content(cls, content, lex):
-        try:
-            content = cls.convert_to_type(content)
-        except IsKeyStartError:
-            try:
-                content = cls.get_key_content_pair(lex)
-            except InvalidPairError:
-                content = {}
-        except IsKeyEndError:
-            content = None
-        except IsDataEndError:
-            content = cls.get_key_content_pair(lex)
-        except IsDataStartError:
-            content = cls.convert_to_type(next(lex))
-            try:
-                list(next(lex) for _ in range(2))
-                # next(lex)
-                content = (content, cls.get_key_content_pair(lex))
-            except Exception as err:
-                print(err)
-        return content
-
-    @classmethod
-    def convert_to_type(cls, content):
-        try:
-            content = ast.literal_eval(content)
-        except (SyntaxError, ValueError):
-            error = {"{": IsKeyStartError,
-                     "}": IsKeyEndError,
-                     "(": IsDataStartError,
-                     ")": IsDataEndError}
-            try:
-                raise error[content]
-            except KeyError:
-                pass
-
         return content
 
 

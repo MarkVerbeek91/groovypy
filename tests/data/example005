@@ -1,0 +1,12 @@
+pipeline {
+    triggers {
+        cron('H */6 * * *')
+    }
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo "comparing"
+            }
+        }
+    }
+}

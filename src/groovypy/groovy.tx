@@ -27,7 +27,14 @@ Agent:
 ;
 
 Triggers:
-    'triggers' '{'  '}'
+    'triggers'
+    '{'
+    cron = Cron?
+    '}'
+;
+
+Cron:
+    'cron' '(' period=STRING ')'
 ;
 
 Stages:
@@ -44,10 +51,29 @@ Post:
 ;
 
 Stage:
-    'stage' '(' STRING ')'
+    'stage' '(' name=STRING ')'
     '{'
-     steps *= StageContent
-     '}'
+    condition = Condition?
+    steps *= StageContent
+    '}'
+;
+
+Condition:
+    'when'
+    '{'
+    expression = Expression
+    '}'
+;
+
+Expression:
+    'expression'
+    '{'
+        data *= Data
+    '}'
+;
+
+Data:
+    ID ID '(' STRING ')' '.' ID '(' STRING ')'
 ;
 
 StageContent:

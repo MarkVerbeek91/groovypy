@@ -9,4 +9,5 @@ class Shell:
 
     def __call__(self):
         args = shlex.split(self.command)
-        subprocess.run(args, shell=True, check=True)
+        print(args)
+        # subprocess.run(args, shell=True, check=True)

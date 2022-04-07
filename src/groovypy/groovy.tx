@@ -18,6 +18,7 @@ Pipeline:
      agent = Agent?
      trigger = Triggers?
      stages = Stages?
+     post = Post?
      '}'
 ;
 
@@ -35,17 +36,42 @@ Stages:
      '}'
 ;
 
+Post:
+    'post' '(' name=STRING ')'
+    '{'
+    cleanups = Cleanup?
+    '}'
+;
+
 Stage:
     'stage' '(' STRING ')'
     '{'
-     steps *= Steps
+     steps *= StageContent
      '}'
+;
+
+StageContent:
+    Parallel | Steps
+;
+
+Parallel:
+    'parallel'
+    '{'
+    stage *= Stage
+    '}'
 ;
 
 Steps:
     'steps'
     '{'
         commands *= Command
+    '}'
+;
+
+Cleanup:
+    'always'
+    '{'
+    commands *= Command
     '}'
 ;
 

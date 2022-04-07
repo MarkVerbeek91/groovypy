@@ -1,0 +1,14 @@
+pipeline {
+    stages {
+        stage('Stage 1') {
+            when {
+                expression {
+                    return readFile('status').contains('CHANGED')
+                }
+            }
+            steps {
+                echo "comparing"
+            }
+        }
+    }
+}

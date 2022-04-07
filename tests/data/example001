@@ -7,7 +7,7 @@ pipeline {
         }
         stage('Stage 2') {
             steps {
-                sh "change detected"
+                sh "ls -la"
             }
         }
     }

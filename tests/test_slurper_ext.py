@@ -80,10 +80,10 @@ class GroovyConfigSlurper:
 
 # -----------------------------------------------------------------------------
 if __name__ == '__main__':
-    with open('example_Jenkinsfile') as f:
+    with open('data/example_Jenkinsfile') as f:
         print(GroovyConfigSlurper(f, None).parse())
 # -----------------------------------------------------------------------------
 
 def test():
-    with open('example_Jenkinsfile') as f:
+    with open('data/example_Jenkinsfile') as f:
         print(GroovyConfigSlurper(f, None).parse())

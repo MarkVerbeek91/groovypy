@@ -1,10 +1,12 @@
+from pathlib import Path
 from textx import metamodel_from_file
 
 from groovypy.elements import class_provider
 
 
 class Slurper:
-    meta_model = metamodel_from_file('groovy.tx', classes=class_provider())
+    language_file = str(Path(__file__).parent / 'groovy.tx')
+    meta_model = metamodel_from_file(language_file, classes=class_provider())
 
     @classmethod
     def parse(cls, input_file):

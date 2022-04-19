@@ -5,7 +5,7 @@ from groovypy.elements import class_provider
 
 
 class Slurper:
-    language_file = str(Path(__file__).parent / 'groovy.tx')
+    language_file = str(Path(__file__).parent / "groovy.tx")
     meta_model = metamodel_from_file(language_file, classes=class_provider())
 
     @classmethod

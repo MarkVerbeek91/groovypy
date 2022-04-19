@@ -2,7 +2,6 @@ from groovypy.slurper import Slurper
 
 
 class Runner:
-
     @classmethod
     def __enter__(cls):
         return cls
@@ -17,7 +16,7 @@ class Runner:
 
 
 if __name__ == "__main__":
-    model = Slurper().parse('example')
+    model = Slurper().parse("example")
 
     with Runner() as runner:
         runner.run(model)

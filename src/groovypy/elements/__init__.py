@@ -11,7 +11,9 @@ classes = []
 
 for pkg in Path(Path(__file__).parent).iterdir():
     if pkg.suffix == ".py" and pkg.name != "__init__.py":
-        elements = importlib.import_module(".{0}".format(pkg.stem), package="groovypy.elements")
+        elements = importlib.import_module(
+            ".{0}".format(pkg.stem), package="groovypy.elements"
+        )
 
         for subclass in inspect.getmembers(elements, inspect.isclass):
             if subclass not in classes:

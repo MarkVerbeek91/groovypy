@@ -1,9 +1,12 @@
+from pathlib import Path
+
 from groovypy.slurper import Slurper
 from groovypy.runner import Runner
 
 
 def main():
-    model = Slurper().parse('Jenkinsfile')
+    input_file = Path(__file__).parent / '..' / 'Jenkinsfile'
+    model = Slurper().parse(str(input_file))
 
     with Runner() as runner:
         runner.run(model)

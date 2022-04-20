@@ -1,4 +1,3 @@
-import shlex
 import subprocess
 
 
@@ -8,5 +7,7 @@ class Shell:
         self.command = command
 
     def __call__(self):
-        args = shlex.split(self.command)
-        subprocess.run(args, shell=True, check=True)
+        try:
+            subprocess.run(self.command, shell=True, check=True)
+        except subprocess.CalledProcessError as err:
+            print(f"Command did not run: {err}")

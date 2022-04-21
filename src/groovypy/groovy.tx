@@ -68,7 +68,7 @@ Condition:
 Expression:
     'expression'
     '{'
-        data *= Data
+    'return' func1=ID '(' input1=STRING ')' '.' func2=ID '(' input2=STRING ')'
     '}'
 ;
 

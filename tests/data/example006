@@ -1,0 +1,13 @@
+pipeline {
+    stages {
+        stage('main stage') {
+            stages {
+                stage('sub stage') {
+                    steps {
+                        echo "comparing"
+                    }
+                }
+            }
+        }
+    }
+}

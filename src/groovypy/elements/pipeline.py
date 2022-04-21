@@ -9,8 +9,7 @@ class Pipeline:
     def __call__(self):
 
         if self.stages is not None:
-            for stage in self.stages.stage:
-                stage()
+            self.stages()
 
         if self.post is not None:
             self.post()

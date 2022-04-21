@@ -77,7 +77,7 @@ Data:
 ;
 
 StageContent:
-    Parallel | Steps
+    Parallel | Steps | Stages
 ;
 
 Parallel:

@@ -17,6 +17,7 @@ Pipeline:
     '{'
      agent = Agent?
      trigger = Triggers?
+     environment = Environment?
      stages = Stages?
      post = Post?
      '}'
@@ -31,6 +32,17 @@ Triggers:
     '{'
     cron = Cron?
     '}'
+;
+
+Environment:
+    'environment'
+    '{'
+    variables *= Variable
+    '}'
+;
+
+Variable:
+    ID '=' STRING
 ;
 
 Cron:

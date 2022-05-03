@@ -1,0 +1,15 @@
+pipeline {
+
+    environment {
+        SHORT_NAME = 'Bond'
+        LONG_NAME = 'James Bond'
+    }
+
+    stages {
+        stage('Stage 1') {
+            steps {
+                sh "echo ${SHORT_NAME}, ${LONG_NAME}"
+            }
+        }
+    }
+}
